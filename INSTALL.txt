@@ -1,0 +1,20 @@
+FIXME publish git
+FIXME docs da stedi SDCARD
+FIXME adduser www-data video -- bolje poseban user da bude
+FIXME optional cronjob za periodicki copy na SDCARD
+FIXME web CGI i upute - TODO http://wannabe.guru.org/scott/hobbies/temperature/
+FIXME install /etc/init.d/temperature_rrd (fix copy zadnju verziju i makefile install)
+FIXME update-rc.d temperature_rrd defaults
+FIXME cronjob za usera za update (i opcionalni periodicki copy na SDCARD iz RAMDISKA)
+
+install -d -o root -g www-data -m 0755 /var/www/db
+install -d -o www-data -g www-data -m 0750 /var/www/db/temperature_log
+install -d -o www-data -g www-data -m 0755  /var/www/html/temperature
+
+apt-get install rrdtool  python-rrdtool
+sudo -u www-data rrdtool create /var/www/db/temperature_log/temperature_log.rrd --start 1371018212 --step 300 \
+  DS:rpi:GAUGE:900:-50:90 \
+  DS:usbtemper:GAUGE:900:-50:90 \
+  RRA:AVERAGE:0.5:1:525600 \
+  RRA:AVERAGE:0.25:60:87600
+
