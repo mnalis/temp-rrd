@@ -1,0 +1,51 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          temperature_rrd
+# Required-Start:    $local_fs $remote_fs
+# Required-Stop:     $local_fs $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts temperature logger
+# Description:       starts the RRDTool temperature logger (internal rPi + usb TEMPer) by mnalis-rpi@voyager.hr 2017-01-11
+### END INIT INFO
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+. /lib/lsb/init-functions
+
+do_stop () {
+	log_action_msg "Stopping temperature logger"
+	cd /var/www/db/temperature_log || log_action_msg "ERROR chdir to /var/www/db/temperature_log"
+	git commit -a "autocommit on system reboot"
+	mv -f /var/www/db/temperature_log/temperature_log.rrd /var/www/db/temperature_log/temperature_log.rrd.old
+	cp -a /run/temperature_log/temperature_log.rrd /var/www/db/temperature_log/temperature_log.rrd
+}
+
+do_start () {
+	log_action_msg "Starting temperature logger"
+	if [ ! -f /run/temperature_log/temperature_log.rrd ]
+	then
+		install -d -g www-data -o www-data -m 0750 /run/temperature_log
+		cp -af /var/www/db/temperature_log/temperature_log.rrd /run/temperature_log/temperature_log.rrd
+	fi
+}
+
+case "$1" in
+  start)
+  	do_start
+	;;
+  restart|reload|force-reload)
+	echo "Error: argument '$1' not supported" >&2
+	exit 3
+	;;
+  stop)
+	do_stop
+	;;
+  status)
+	exit 0
+	;;
+  *)
+	echo "Usage: $0 start|stop" >&2
+	exit 3
+	;;
+esac
