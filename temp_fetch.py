@@ -1,6 +1,11 @@
+#!/usr/bin/python
+
+import rrdtool
 from subprocess import check_output
 from re import findall
 from time import sleep, strftime, time
+
+databaseFile = "/run/temperature_log/temperature_log.rrd"
 
 def get_temp_rpi_internal():
     temp = check_output(["vcgencmd","measure_temp"]).decode("UTF-8")
@@ -12,9 +17,18 @@ def get_temp_temper_usb():
     temp = float(findall("\d+\.\d+",temp)[0])
     return(temp)
 
-with open("cpu_temp.csv", "a") as log:
-    while True:
-        temp1 = get_temp_rpi_internal()
-        temp2 = get_temp_temper_usb()
-        log.write ("{0},{1},{2}\n".format(strftime("%Y-%m-%d %H:%M:%S"),str(temp1),str(temp2)))
-        sleep(1)
+def update_all():
+    template = ""
+    update = "N:"
+
+    template += "rpi:"
+    update += "%f:" % get_temp_rpi_internal()
+
+    template += "usbtemper:"
+    update += "%f:" % get_temp_temper_usb()
+
+    update = update[:-1]
+    template = template[:-1]
+    rrdtool.update(databaseFile, "--template", template, update)
+
+update_all()
