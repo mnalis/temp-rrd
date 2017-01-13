@@ -8,6 +8,7 @@ FIXME update-rc.d temperature_rrd defaults
 FIXME cronjob za usera za update (i opcionalni periodicki copy na SDCARD iz RAMDISKA)
 FIXME png da se isto kreira na ramdisku negdje (mount unutar /var/www/html ?) ili jos bolje da kada se pokrene CGI da ga sam ispise na output bez spremanja igdje (vidi examples za RRDTool)
 FIXME kabl produzni za USB ili pomaknuti rPi ili hardcode offset drugi da dobijemo vjerniju temperaturu (sada pokazuje oko +4C previse. mozda najbolje onda u TEMPEru ugasiti kalibraciju skroz, a u RRD collector scripti je staviti)
+FIXME fix hardcoded pathove i docs, pa publish na github (unutar temper-DX paketa?)
 
 install -d -o root -g www-data -m 0755 /var/www/db
 install -d -o www-data -g www-data -m 0750 /var/www/db/temperature_log
