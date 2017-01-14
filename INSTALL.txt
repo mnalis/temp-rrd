@@ -15,9 +15,10 @@ install -d -o www-data -g www-data -m 0750 /var/www/db/temperature_log
 install -d -o www-data -g www-data -m 0755  /var/www/html/temperature
 
 apt-get install rrdtool  python-rrdtool
-sudo -u www-data rrdtool create /var/www/db/temperature_log/temperature_log.rrd --start 1371018212 --step 300 \
+sudo -u www-data rrdtool create /var/www/db/temperature_log/temperature_log.rrd --step 300 \
   DS:rpi:GAUGE:900:-50:90 \
   DS:usbtemper:GAUGE:900:-50:90 \
+  DS:outside:GAUGE:900:-50:90 \
   RRA:AVERAGE:0.5:1:525600 \
   RRA:AVERAGE:0.25:60:87600
 

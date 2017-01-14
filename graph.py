@@ -7,7 +7,10 @@ rrdtool graph /var/www/html/temperature/one_day.png \
   --step=60 -v degreesC \
   DEF:temp1=/run/temperature_log/temperature_log.rrd:rpi:AVERAGE \
   DEF:temp2=/run/temperature_log/temperature_log.rrd:usbtemper:AVERAGE \
-  LINE2:temp1#008000:"rPi internal" \
-  LINE2:temp2#800000:"USB TEMPer" \
+  DEF:temp3=/run/temperature_log/temperature_log.rrd:outside:AVERAGE \
+  LINE2:temp1#A00000:"rPi internal" \
+  LINE2:temp2#008000:"USB TEMPer" \
+  AREA:temp3#000080:"Outside" \
   HRULE:0#0000FF:"freezing"
+  HRULE:18#00FFFF:"cold"
 
