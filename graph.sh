@@ -11,6 +11,6 @@ rrdtool graph /var/www/html/temperature/one_day.png \
   LINE2:temp1#A00000:"rPi internal" \
   LINE2:temp2#008000:"USB TEMPer" \
   AREA:temp3#000080:"Outside" \
-  HRULE:0#0000FF:"freezing"
+  HRULE:0#0000FF:"freezing" \
   HRULE:18#00FFFF:"cold"
 
