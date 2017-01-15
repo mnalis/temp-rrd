@@ -13,6 +13,8 @@ FIXME mention get_outside() license stuff and link to their page.
 FIXME move get_outside to separate script? or use ENV variables for APIkey and location? autoip location?
       wget -q -O- http://api.wunderground.com/api/FIXMEKEY/geolookup/conditions/q/autoip.json
 
+FIXME document temp_fetch.py --apikey=xxxx --apiid=IGRADZAG10
+
 install -d -o root -g www-data -m 0755 /var/www/db
 install -d -o www-data -g www-data -m 0750 /var/www/db/temperature_log
 install -d -o www-data -g www-data -m 0755  /var/www/html/temperature
