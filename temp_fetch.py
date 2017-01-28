@@ -29,15 +29,18 @@ def get_temp_outside():
     if not args.apiid:
         args.apiid = 'autoip'
 
-    f = urllib2.urlopen('http://api.wunderground.com/api/' + args.apikey + '/geolookup/conditions/q/' + args.apiid + '.json')
-    json_string = f.read()
-    parsed_json = json.loads(json_string)
-    temp = parsed_json['current_observation']['temp_c']
-    if args.verbose:
-        location = parsed_json['location']['city']
-        print "Current outside temperature in %s (specified %s) is: %s" % (location, args.apiid, temp)
-    f.close()
-    return(temp)
+    try:
+        f = urllib2.urlopen('http://api.wunderground.com/api/' + args.apikey + '/geolookup/conditions/q/' + args.apiid + '.json')
+        json_string = f.read()
+        parsed_json = json.loads(json_string)
+        temp = parsed_json['current_observation']['temp_c']
+        if args.verbose:
+            location = parsed_json['location']['city']
+            print "Current outside temperature in %s (specified %s) is: %s" % (location, args.apiid, temp)
+        f.close()
+        return(temp)
+    except:
+        return
 
 
 def update_all():
