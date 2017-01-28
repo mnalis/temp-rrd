@@ -50,8 +50,10 @@ def update_all():
     update += "%f:" % get_temp_temper_usb()
 
     if args.apikey:
-        template += "outside:"
-        update += "%f:" % get_temp_outside()
+        out_temp = get_temp_outside()
+        if out_temp:
+            template += "outside:"
+            update += "%f:" % out_temp
 
     update = update[:-1]
     template = template[:-1]
