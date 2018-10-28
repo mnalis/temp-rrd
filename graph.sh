@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#exec > /dev/null
+exec > /dev/null
 
 COMMON='
   --width=640 --height=480 
@@ -9,9 +9,11 @@ COMMON='
   DEF:temp1=/run/temperature_log/temperature_log.rrd:rpi:AVERAGE 
   DEF:temp2=/run/temperature_log/temperature_log.rrd:usbtemper:AVERAGE 
   DEF:temp3=/run/temperature_log/temperature_log.rrd:outside:AVERAGE 
+  DEF:temp4=/run/temperature_log/temperature_log.rrd:dht11temp:AVERAGE 
   LINE2:temp1#A00000:"rPi_internal" 
   LINE2:temp2#008000:"USB_TEMPer" 
   AREA:temp3#00008080:"Outside" 
+  LINE2:temp4#60F000:"DHT11_temp" 
   HRULE:0#0000FF:"freezing" 
   HRULE:18#00FFFF:"cold"
 '
