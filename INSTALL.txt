@@ -24,6 +24,8 @@ sudo -u www-data rrdtool create /var/www/db/temperature_log/temperature_log.rrd 
   DS:rpi:GAUGE:900:-50:90 \
   DS:usbtemper:GAUGE:900:-50:90 \
   DS:outside:GAUGE:900:-50:90 \
+  DS:dht11temp:GAUGE:900:-50:90 \
+  DS:dht11hum:GAUGE:900:-10:110 \
   RRA:AVERAGE:0.5:1:525600 \
   RRA:AVERAGE:0.25:60:87600
 
