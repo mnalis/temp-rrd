@@ -8,6 +8,13 @@ from time import sleep, strftime, time
 
 databaseFile = "/run/temperature_log/temperature_log.rrd"
 
+def get_temp_dht11():
+    output = check_output(["sudo", "/usr/local/bin/dht11"]).decode("UTF-8")
+    temp, humidity = findall("\d+\.\d+",output)
+    if args.verbose:
+        print "DHT11 temperature is %s and humidity is %s" % (temp, humidity)
+    return(temp,humidity)
+
 def get_temp_rpi_internal():
     temp = check_output(["vcgencmd","measure_temp"]).decode("UTF-8")
     temp = float(findall("\d+\.\d+",temp)[0])
@@ -49,8 +56,15 @@ def update_all():
 
     template += "rpi:"
     update += "%f:" % get_temp_rpi_internal()
+
     template += "usbtemper:"
     update += "%f:" % get_temp_temper_usb()
+
+    dht11_t, dht11_h = get_temp_dht11()
+    template += "dht11temp:"
+    update += "%f:" % float(dht11_t)
+    template += "dht11hum:"
+    update += "%f:" % float(dht11_h)
 
     if args.apikey:
         out_temp = get_temp_outside()
