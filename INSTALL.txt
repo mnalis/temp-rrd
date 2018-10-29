@@ -1,4 +1,8 @@
+FIXME return spaces to graph names?
 FIXME stavi da se crta i humidity, ali sa svojom skalom s desne strane
+  mozda prema https://github.com/avirtuos/pi_zero/blob/master/dht11/dht11.py
+  http://virtuoso-blog.s3-website-us-east-1.amazonaws.com/posts/pi-zero-dht11.html
+
 FIXME publish git
 FIXME docs da stedi SDCARD
 FIXME adduser www-data video -- bolje poseban user da bude
