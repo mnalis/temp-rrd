@@ -14,22 +14,38 @@ COMMON='
   --right-axis 2:0
   --slope-mode
   --alt-y-grid 
-  DEF:temp1=/run/temperature_log/temperature_log.rrd:rpi:AVERAGE 
-  DEF:temp2=/run/temperature_log/temperature_log.rrd:usbtemper:AVERAGE 
-  DEF:temp3=/run/temperature_log/temperature_log.rrd:outside:AVERAGE 
-  DEF:temp4=/run/temperature_log/temperature_log.rrd:dht11temp:AVERAGE 
+  DEF:temp_rpi=/run/temperature_log/temperature_log.rrd:rpi:AVERAGE 
+  DEF:temp_usb=/run/temperature_log/temperature_log.rrd:usbtemper:AVERAGE 
+  DEF:temp_out=/run/temperature_log/temperature_log.rrd:outside:AVERAGE 
+  DEF:temp_dht=/run/temperature_log/temperature_log.rrd:dht11temp:AVERAGE 
   DEF:humidity=/run/temperature_log/temperature_log.rrd:dht11hum:AVERAGE 
   CDEF:scaled_humidity=humidity,2,/
-  LINE2:temp1#A00000:"rPi_internal" 
-  LINE2:temp2#008000:"USB_TEMPer" 
-  AREA:temp3#00008080:"Outside" 
-  LINE2:temp4#60F000:"DHT11_temp" 
-  LINE2:scaled_humidity#FFA500:"DHT11_humid":dashes
-  HRULE:0#0000FF:"freezing" 
-  HRULE:18#00FFFF:"cold"
-  GPRINT:humidity:LAST:Current_Humidity\:%3.0lf%%
-  GPRINT:temp4:LAST:Current_IN\:%3.0lfC
-  GPRINT:temp3:LAST:Current_OUT\:%3.0lfC
+
+  HRULE:0#0000FF:freezing
+  HRULE:18#00FFFF:cold
+
+  LINE2:temp_rpi#A00000:rPi_internal
+  LINE2:temp_usb#008000:USB_TEMPer
+
+  COMMENT:\n
+
+   AREA:temp_out#00008080:Outside\t
+  GPRINT:temp_out:LAST:Last\:%3.0lfC
+  GPRINT:temp_out:MIN:Min\:%3.0lfC
+  GPRINT:temp_out:AVERAGE:Avg\:%3.0lfC
+  GPRINT:temp_out:MAX:Max\:%3.0lfC\n
+
+   LINE2:temp_dht#60F000:DHT11_temp\t
+  GPRINT:temp_dht:LAST:Last\:%3.0lfC
+  GPRINT:temp_dht:MIN:Min\:%3.0lfC
+  GPRINT:temp_dht:AVERAGE:Avg\:%3.0lfC
+  GPRINT:temp_dht:MAX:Max\:%3.0lfC\n
+  
+   LINE2:scaled_humidity#FFA500:DHT11_humid\t:dashes
+  GPRINT:humidity:LAST:Last\:%3.0lf%%
+  GPRINT:humidity:MIN:Min\:%3.0lf%%
+  GPRINT:humidity:AVERAGE:Avg\:%3.0lf%%
+  GPRINT:humidity:MAX:Max\:%3.0lf%%\n
 '
 
 rrdtool graph  /run/temperature_log/one_day.png \

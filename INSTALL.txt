@@ -7,6 +7,8 @@ FIXME vrati spaces to graph names?
     https://oss.oetiker.ch/rrdtool/doc/rrdgraph.en.html
     https://oss.oetiker.ch/rrdtool/doc/rrdgraph_examples.en.html
 
+FIXME GPRINT update so it shows last/min/avg/max
+
 FIXME publish git
 FIXME docs da stedi SDCARD
 FIXME adduser www-data video -- bolje poseban user da bude
