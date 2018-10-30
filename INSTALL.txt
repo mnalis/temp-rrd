@@ -1,7 +1,11 @@
-FIXME return spaces to graph names?
-FIXME stavi da se crta i humidity, ali sa svojom skalom s desne strane
+FIXME vrati spaces to graph names?
++? FIXME stavi da se crta i humidity, ali sa svojom skalom s desne strane
   mozda prema https://github.com/avirtuos/pi_zero/blob/master/dht11/dht11.py
   http://virtuoso-blog.s3-website-us-east-1.amazonaws.com/posts/pi-zero-dht11.html
+    https://calomel.org/rrdtool.html
+    https://gorthx.wordpress.com/2010/06/08/using-rrdgraphs-right-axis-options/
+    https://oss.oetiker.ch/rrdtool/doc/rrdgraph.en.html
+    https://oss.oetiker.ch/rrdtool/doc/rrdgraph_examples.en.html
 
 FIXME publish git
 FIXME docs da stedi SDCARD
