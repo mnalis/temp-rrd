@@ -33,17 +33,14 @@ def get_temp_outside():
     import urllib2
     import json
 
-    if not args.apiid:
-        args.apiid = 'autoip'
-
     try:
-        f = urllib2.urlopen('http://api.wunderground.com/api/' + args.apikey + '/geolookup/conditions/q/' + args.apiid + '.json')
+        f = urllib2.urlopen('https://api.openweathermap.org/data/2.5/weather?APPID=' + args.apikey + '&units=metric&' + args.apiloc)
         json_string = f.read()
         parsed_json = json.loads(json_string)
-        temp = parsed_json['current_observation']['temp_c']
+        temp = parsed_json['main']['temp']
         if args.verbose:
-            location = parsed_json['location']['city']
-            print "Current outside temperature in %s (specified %s) is: %s" % (location, args.apiid, temp)
+            location = parsed_json['name']
+            print "Current outside temperature at %s (specified %s) is: %s" % (location, args.apiloc, temp)
         f.close()
         return(temp)
     except:
@@ -79,8 +76,8 @@ def update_all():
     rrdtool.update(databaseFile, "--template", template, update)
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--apikey", help="wunderground.com API key, register to get one")
-parser.add_argument("--apiid", help="wunderground.com location ID, like IGRADZAG10")
+parser.add_argument("--apikey", help="openweathermap.org API key, register to get one")
+parser.add_argument("--apiloc", help="openweathermap.org locator from https://openweathermap.org/current, like 'q=London,uk' or 'lat=45.80303&lon=15.92889'")
 parser.add_argument("-v", "--verbose", help="increase output verbosity", action="count")
 args = parser.parse_args()
 
