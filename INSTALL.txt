@@ -1,37 +1,11 @@
-FIXME vrati spaces to graph names?
-+? FIXME stavi da se crta i humidity, ali sa svojom skalom s desne strane
-  mozda prema https://github.com/avirtuos/pi_zero/blob/master/dht11/dht11.py
-  http://virtuoso-blog.s3-website-us-east-1.amazonaws.com/posts/pi-zero-dht11.html
-    https://calomel.org/rrdtool.html
-    https://gorthx.wordpress.com/2010/06/08/using-rrdgraphs-right-axis-options/
-    https://oss.oetiker.ch/rrdtool/doc/rrdgraph.en.html
-    https://oss.oetiker.ch/rrdtool/doc/rrdgraph_examples.en.html
+# apt-get install rrdtool  python-rrdtool 
 
-FIXME GPRINT update so it shows last/min/avg/max
+# apt-get install lighttpd
+# install -d -o root -g www-data -m 0755 /var/www/db
+# install -d -o www-data -g www-data -m 0750 /var/www/db/temperature_log
+# install -d -o www-data -g www-data -m 0755  /var/www/html/temperature
 
-FIXME publish git
-FIXME docs da stedi SDCARD
-FIXME adduser www-data video -- bolje poseban user da bude
-FIXME optional cronjob za periodicki copy na SDCARD
-FIXME web CGI i upute - TODO http://wannabe.guru.org/scott/hobbies/temperature/
-FIXME install /etc/init.d/temperature_rrd (fix copy zadnju verziju i makefile install)
-FIXME update-rc.d temperature_rrd defaults
-FIXME cronjob za usera za update (i opcionalni periodicki copy na SDCARD iz RAMDISKA)
-FIXME png da se isto kreira na ramdisku negdje (mount unutar /var/www/html ?) ili jos bolje da kada se pokrene CGI da ga sam ispise na output bez spremanja igdje (vidi examples za RRDTool)
-FIXME kabl produzni za USB ili pomaknuti rPi ili hardcode offset drugi da dobijemo vjerniju temperaturu (sada pokazuje oko +4C previse. mozda najbolje onda u TEMPEru ugasiti kalibraciju skroz, a u RRD collector scripti je staviti)
-FIXME fix hardcoded pathove i docs, pa publish na github (unutar temper-DX paketa?)
-FIXME mention get_outside() license stuff and link to their page.
-FIXME move get_outside to separate script? or use ENV variables for APIkey and location? autoip location?
-      wget -q -O- http://api.wunderground.com/api/FIXMEKEY/geolookup/conditions/q/autoip.json
-
-FIXME document temp_fetch.py --apikey=xxxx --apiid=pws:IGRADZAG10 (i autoip mogucnost ili zemlja itd i link na official docs)
-
-install -d -o root -g www-data -m 0755 /var/www/db
-install -d -o www-data -g www-data -m 0750 /var/www/db/temperature_log
-install -d -o www-data -g www-data -m 0755  /var/www/html/temperature
-
-apt-get install rrdtool  python-rrdtool
-sudo -u www-data rrdtool create /var/www/db/temperature_log/temperature_log.rrd --step 300 \
+# sudo -u www-data rrdtool create /var/www/db/temperature_log/temperature_log.rrd --step 300 \
   DS:rpi:GAUGE:900:-50:90 \
   DS:usbtemper:GAUGE:900:-50:90 \
   DS:outside:GAUGE:900:-50:90 \
@@ -40,3 +14,7 @@ sudo -u www-data rrdtool create /var/www/db/temperature_log/temperature_log.rrd 
   RRA:AVERAGE:0.5:1:525600 \
   RRA:AVERAGE:0.25:60:87600
 
+### register for API key: https://openweathermap.org/appid if you want outside data (or omit --apikey and --apiloc params)
+# crontab -u www-data -e
+*/5     *       *   *   *       timeout -k 4m 3m /opt/temp-rrd/temp_fetch.py --apikey=YOUR_API_KEY_HERE --apiloc='lat=45.80303&lon=15.92889'
+*/15    *       *   *   *       timeout -k 14m 13m /opt/temp-rrd/graph.sh
