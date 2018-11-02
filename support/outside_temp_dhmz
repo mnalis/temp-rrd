@@ -1,0 +1,22 @@
+#!/bin/sh
+STATION="Zagreb-Maksimir"
+
+#<Grad autom="0">
+#<GradIme>Zagreb-Maksimir</GradIme>
+#<Lat>45.822</Lat>
+#<Lon>16.034</Lon>
+#<Podatci>
+#<Temp> 15.9</Temp>
+#<Vlaga>95</Vlaga>
+#<Tlak>1020.2</Tlak>
+#<TlakTend>+0.3</TlakTend>
+#<VjetarSmjer>NE</VjetarSmjer>
+#<VjetarBrzina> 1.1</VjetarBrzina>
+#<Vrijeme>slaba kiša</Vrijeme>
+#<VrijemeZnak>26</VrijemeZnak>
+#</Podatci>
+#</Grad>
+
+curl -s -L "http://vrijeme.hr/hrvatska_n.xml" | \
+	awk "/$STATION/ { ok=1 } ok==1 && /<Temp>/ { print ; exit }" | \
+	grep -Po '\d+\.?\d*'

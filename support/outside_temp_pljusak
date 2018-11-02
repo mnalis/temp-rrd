@@ -3,7 +3,7 @@ STATION="trnje"
 
 #    <td class="slova">Temperatura zraka:</td>
 #    <td class="brojke">15.5??C</td>
-curl -L "http://pljusak.com/wx.php?stanica=$STATION" | \
+curl -s -L "http://pljusak.com/wx.php?stanica=$STATION" | \
 #cat trnje.txt | \
 	fgrep -A3 'Temperatura zraka' | \
 	fgrep 'class="brojke"' | \
