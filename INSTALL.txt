@@ -17,7 +17,7 @@
 ### for USBtemper hardware support you need to install /usr/local/bin/temper from https://github.com/mnalis/TEMPer-DX
 ### for DHT11 hardware support you need https://github.com/adafruit/Adafruit_Python_DHT and support/dht11 in /usr/local/bin and support/sudoers.050_dht11 in /etc/sudoers.d/050_dht11 -- more info on https://tutorials-raspberrypi.com/raspberry-pi-measure-humidity-temperature-dht11-dht22/
 
-### register for API key: https://openweathermap.org/appid if you want outside data from Internet (or omit apikey and apiloc environment variables)
+### for OpenWeatherMap outside temperature data, register for API key at https://openweathermap.org/appid (or omit apikey and apiloc environment variables) and install support/outside_temp to /usr/local/bin
 
 # crontab -u www-data -e
 */5     *       *   *   *       timeout -k 4m 3m env apikey=YOUR_API_KEY_HERE apiloc='lat=45.80303&lon=15.92889' /opt/temp-rrd/temp_fetch.py 

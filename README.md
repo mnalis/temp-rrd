@@ -4,13 +4,15 @@ viewed in web browser.
 Created to be used on Raspberry Pi with following hardware:
 
 - RaspberryPi internal temperature sensor
-  libraspberrypi-bin for Raspbian repository
+  libraspberrypi-bin package for Raspbian repository
 
 - USB TEMPer temperature sensor
   https://github.com/mnalis/TEMPer-DX
 
 - DHT11 temperature and humidity sensor
   https://github.com/adafruit/Adafruit_Python_DHT
+
+- http://openweathermap.org/ Internet source for outside temperatures
 
 but is intended to be easily extendable and run on any GNU/Linux OS.
 
