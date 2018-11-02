@@ -1,0 +1,39 @@
+#!/usr/bin/python
+import argparse
+import os
+import sys
+
+def get_temp_outside():
+    import urllib2
+    import json
+
+    try:
+        f = urllib2.urlopen('https://api.openweathermap.org/data/2.5/weather?APPID=' + apikey + '&units=metric&' + apiloc)
+        json_string = f.read()
+        parsed_json = json.loads(json_string)
+        temp = parsed_json['main']['temp']
+        if args.verbose:
+            location = parsed_json['name']
+            print "Current outside temperature at %s (specified %s) is: %s" % (location, apiloc, temp)
+        f.close()
+        return(temp)
+    except:
+        return
+
+
+# openweathermap.org API key, register to get one
+apikey=os.environ.get('apikey')
+if apikey is None:
+	print "missing ENV apikey -- to get API key, you need to register at https://openweathermap.org/appid"
+	sys.exit(10)
+
+# openweathermap.org locator from https://openweathermap.org/current, like 'q=London,uk' or 'lat=45.80303&lon=15.92889'
+apiloc=os.environ.get('apiloc')
+if apiloc is None:
+	print "missing ENV apiloc -- openweathermap.org locator from https://openweathermap.org/current, like 'q=London,uk' or 'lat=45.80303&lon=15.92889'"
+	sys.exit(11)
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-v", "--verbose", help="increase output verbosity", action="count")
+args = parser.parse_args()
+print get_temp_outside()
