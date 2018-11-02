@@ -20,5 +20,5 @@
 ### register for API key: https://openweathermap.org/appid if you want outside data from Internet (or omit --apikey and --apiloc params)
 
 # crontab -u www-data -e
-*/5     *       *   *   *       timeout -k 4m 3m /opt/temp-rrd/temp_fetch.py --apikey=YOUR_API_KEY_HERE --apiloc='lat=45.80303&lon=15.92889'
+*/5     *       *   *   *       timeout -k 4m 3m env apikey=YOUR_API_KEY_HERE apiloc='lat=45.80303&lon=15.92889' /opt/temp-rrd/temp_fetch.py 
 */15    *       *   *   *       timeout -k 14m 13m /opt/temp-rrd/graph.sh
