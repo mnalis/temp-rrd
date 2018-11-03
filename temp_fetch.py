@@ -9,48 +9,70 @@ from time import sleep, strftime, time
 databaseFile = "/run/temperature_log/temperature_log.rrd"
 
 def get_temp_dht11():
-    output = check_output(["sudo", "/usr/local/bin/dht11"]).decode("UTF-8")
-    temp, humidity = findall("\d+\.?\d*",output)
-    if args.verbose:
-        print "DHT11 temperature is %s and humidity is %s" % (temp, humidity)
-    return(temp,humidity)
+    try:
+        output = check_output(["sudo", "/usr/local/bin/dht11"]).decode("UTF-8")
+        temp, humidity = findall("\d+\.?\d*",output)
+        if args.verbose:
+            print "DHT11 temperature is %s and humidity is %s" % (temp, humidity)
+        return(temp,humidity)
+    except:
+        if args.verbose:
+            print "DHT11 fetch failed, ignoring it"
 
 def get_temp_rpi_internal():
-    temp = check_output(["vcgencmd","measure_temp"]).decode("UTF-8")
-    temp = float(findall("\d+\.?\d*",temp)[0])
-    if args.verbose:
-        print "rPi internal temperature is %s" % temp
-    return(temp)
+    try:
+        temp = check_output(["vcgencmd","measure_temp"]).decode("UTF-8")
+        temp = float(findall("\d+\.?\d*",temp)[0])
+        if args.verbose:
+            print "rPi internal temperature is %s" % temp
+        return(temp)
+    except:
+        if args.verbose:
+            print "rPi internal sensor fetch failed, ignoring it"
 
 def get_temp_temper_usb():
-    temp = check_output(["/usr/local/bin/temper"]).decode("UTF-8")
-    temp = float(findall("\d+\.?\d*",temp)[0])
-    if args.verbose:
-        print "USB TEMPer temperature is %s" % temp
-    return(temp)
+    try:
+        temp = check_output(["/usr/local/bin/temper"]).decode("UTF-8")
+        temp = float(findall("\d+\.?\d*",temp)[0])
+        if args.verbose:
+            print "USB TEMPer temperature is %s" % temp
+        return(temp)
+    except:
+        if args.verbose:
+            print "USB TEMPer fetch failed, ignoring it"
 
 def get_temp_outside():
-    temp = check_output(["/usr/local/bin/outside_temp"]).decode("UTF-8")
-    temp = float(findall("\d+\.?\d*",temp)[0])
-    if args.verbose:
-        print "Outside temperature is %s" % temp
-    return(temp)
+    try:
+        temp = check_output(["/usr/local/bin/outside_temp"]).decode("UTF-8")
+        temp = float(findall("\d+\.?\d*",temp)[0])
+        if args.verbose:
+            print "Outside temperature is %s" % temp
+        return(temp)
+    except:
+        if args.verbose:
+            print "Outside temperature fetch failed, ignoring it"
 
 def update_all():
     template = ""
     update = "N:"
 
-    template += "rpi:"
-    update += "%f:" % get_temp_rpi_internal()
+    rpi_t = get_temp_rpi_internal()
+    if rpi_t:
+        template += "rpi:"
+        update += "%f:" % rpi_t
 
-    template += "usbtemper:"
-    update += "%f:" % get_temp_temper_usb()
+    temper_t = get_temp_temper_usb()
+    if temper_t:
+        template += "usbtemper:"
+        update += "%f:" % temper_t
 
     dht11_t, dht11_h = get_temp_dht11()
-    template += "dht11temp:"
-    update += "%f:" % float(dht11_t)
-    template += "dht11hum:"
-    update += "%f:" % float(dht11_h)
+    if dht11_t:
+        template += "dht11temp:"
+        update += "%f:" % float(dht11_t)
+    if dht11_h:
+        template += "dht11hum:"
+        update += "%f:" % float(dht11_h)
 
     out_temp = get_temp_outside()
     if out_temp:
