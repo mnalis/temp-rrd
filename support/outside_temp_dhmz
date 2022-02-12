@@ -19,4 +19,4 @@ STATION="Zagreb-Maksimir"
 
 curl -s -L "http://vrijeme.hr/hrvatska_n.xml" | \
 	awk "/$STATION/ { ok=1 } ok==1 && /<Temp>/ { print ; exit }" | \
-	grep -Po '\d+\.?\d*'
+	grep -Po -- '-?\d+\.?\d*'
