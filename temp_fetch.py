@@ -22,7 +22,7 @@ def get_temp_dht11():
 def get_temp_rpi_internal():
     try:
         temp = check_output(["vcgencmd","measure_temp"]).decode("UTF-8")
-        temp = float(findall("\d+\.?\d*",temp)[0])
+        temp = float(findall("-?\d+\.?\d*",temp)[0])
         if args.verbose:
             print "rPi internal temperature is %s" % temp
         return(temp)
@@ -33,7 +33,7 @@ def get_temp_rpi_internal():
 def get_temp_temper_usb():
     try:
         temp = check_output(["/usr/local/bin/temper"]).decode("UTF-8")
-        temp = float(findall("\d+\.?\d*",temp)[0])
+        temp = float(findall("-?\d+\.?\d*",temp)[0])
         if args.verbose:
             print "USB TEMPer temperature is %s" % temp
         return(temp)
@@ -44,7 +44,7 @@ def get_temp_temper_usb():
 def get_temp_outside():
     try:
         temp = check_output(["/usr/local/bin/outside_temp"]).decode("UTF-8")
-        temp = float(findall("\d+\.?\d*",temp)[0])
+        temp = float(findall("-?\d+\.?\d*",temp)[0])
         if args.verbose:
             print "Outside temperature is %s" % temp
         return(temp)
