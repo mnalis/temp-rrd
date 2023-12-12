@@ -13,44 +13,44 @@ def get_temp_dht11():
         output = check_output(["sudo", "/usr/local/bin/dht11"]).decode("UTF-8")
         temp, humidity = findall("\d+\.?\d*",output)
         if args.verbose:
-            print "DHT11 temperature is %s and humidity is %s" % (temp, humidity)
+            print ("DHT11 temperature is %s and humidity is %s" % (temp, humidity))
         return(temp,humidity)
     except:
         if args.verbose:
-            print "DHT11 fetch failed, ignoring it"
+            print ("DHT11 fetch failed, ignoring it")
 
 def get_temp_rpi_internal():
     try:
         temp = check_output(["vcgencmd","measure_temp"]).decode("UTF-8")
         temp = float(findall("-?\d+\.?\d*",temp)[0])
         if args.verbose:
-            print "rPi internal temperature is %s" % temp
+            print ("rPi internal temperature is %s" % temp)
         return(temp)
     except:
         if args.verbose:
-            print "rPi internal sensor fetch failed, ignoring it"
+            print ("rPi internal sensor fetch failed, ignoring it")
 
 def get_temp_temper_usb():
     try:
         temp = check_output(["/usr/local/bin/temper"]).decode("UTF-8")
         temp = float(findall("-?\d+\.?\d*",temp)[0])
         if args.verbose:
-            print "USB TEMPer temperature is %s" % temp
+            print ("USB TEMPer temperature is %s" % temp)
         return(temp)
     except:
         if args.verbose:
-            print "USB TEMPer fetch failed, ignoring it"
+            print ("USB TEMPer fetch failed, ignoring it")
 
 def get_temp_outside():
     try:
         temp = check_output(["/usr/local/bin/outside_temp"]).decode("UTF-8")
         temp = float(findall("-?\d+\.?\d*",temp)[0])
         if args.verbose:
-            print "Outside temperature is %s" % temp
+            print ("Outside temperature is %s" % temp)
         return(temp)
     except:
         if args.verbose:
-            print "Outside temperature fetch failed, ignoring it"
+            print ("Outside temperature fetch failed, ignoring it")
 
 def update_all():
     template = ""
@@ -82,7 +82,7 @@ def update_all():
     update = update[:-1]
     template = template[:-1]
     if args.verbose > 1:
-        print "DEBUG: rrdtool update %s --template %s %s" % (databaseFile, template, update)
+        print ("DEBUG: rrdtool update %s --template %s %s" % (databaseFile, template, update))
     rrdtool.update(databaseFile, "--template", template, update)
 
 parser = argparse.ArgumentParser()
