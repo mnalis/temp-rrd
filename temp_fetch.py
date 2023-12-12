@@ -81,7 +81,7 @@ def update_all():
 
     update = update[:-1]
     template = template[:-1]
-    if args.verbose > 1:
+    if (args.verbose > 1):
         print ("DEBUG: rrdtool update %s --template %s %s" % (databaseFile, template, update))
     rrdtool.update(databaseFile, "--template", template, update)
 
