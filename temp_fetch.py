@@ -18,6 +18,7 @@ def get_temp_dht11():
     except:
         if args.verbose:
             print ("DHT11 fetch failed, ignoring it")
+            return (None, None)
 
 def get_temp_rpi_internal():
     try:
