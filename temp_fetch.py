@@ -21,8 +21,11 @@ def get_temp_dht11():
 
 def get_temp_rpi_internal():
     try:
-        temp = check_output(["vcgencmd","measure_temp"]).decode("UTF-8")
-        temp = float(findall(r"-?\d+\.?\d*",temp)[0])
+        #temp = check_output(["vcgencmd","measure_temp"]).decode("UTF-8")
+        #temp = float(findall(r"-?\d+\.?\d*",temp)[0])
+        with open('/sys/class/thermal/thermal_zone0/temp', 'r') as infile:
+            temp = float(infile.read()) * 1e-3
+
         if args.verbose:
             print ("rPi internal temperature is %s" % temp)
         return(temp)
